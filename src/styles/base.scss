@@ -1,0 +1,23 @@
+* {
+  overflow-x: none;
+  box-sizing: border-box;
+  
+}
+
+html {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-ont-smoothing: antialiased;
+  background-color: aliceblue;
+  color: #2c3e50;
+}
+
+body {
+  margin: 0;
+}
+
+
+#content {
+  width: clamp(325px, 90%, 1140px);
+  margin: 60px auto;
+}
