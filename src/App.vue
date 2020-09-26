@@ -13,7 +13,7 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
 * {
   overflow-x: none;
   box-sizing: border-box;

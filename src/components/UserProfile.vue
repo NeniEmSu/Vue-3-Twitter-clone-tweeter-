@@ -137,7 +137,7 @@ export default {
         state.selectedType !== "Draft"
       ) {
         state.newTweet.id = state.tweetIndex;
-        state.newTweet.date = new Date().toLocaleDateString();
+        state.newTweet.date = `${new Date().toDateString()} ${new Date().toLocaleTimeString()}`;
         state.tweetIndex++;
         state.tweets.unshift(state.newTweet);
         state.newTweet = { content: "" };
@@ -170,43 +170,43 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .user-profile {
   display: grid;
   grid-template-columns: 1fr 3fr;
   padding: 10px;
   width: 100%;
-}
 
-.user-profile__user-panel {
-  /* height: auto;
+  &__user-panel {
+    /* height: auto;
   max-height: 440px; */
-  border: none;
-  padding: 20px;
-  margin-right: 25px;
-  display: flex;
-  flex-direction: column;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  background-color: white;
-}
+    border: none;
+    padding: 20px;
+    margin-right: 25px;
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    background-color: white;
+  }
 
-.user-profile__user-panel-info {
-  display: flex;
-  flex-direction: column;
-}
+  &__user-panel-info {
+    display: flex;
+    flex-direction: column;
+  }
 
-.user-profile__username {
-  font-size: 1.5rem;
-}
+  &__username {
+    font-size: 1.5rem;
+  }
 
-.user-profile__admin-badge {
-  background-color: purple;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  margin: 0 auto 5px 0;
-  padding: 5px 10px;
+  &__admin-badge {
+    background-color: purple;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    margin: 0 auto 5px 0;
+    padding: 5px 10px;
+  }
 }
 
 button {
@@ -219,21 +219,21 @@ button {
   color: white;
   font-weight: bold;
   transition: 300ms ease-in-out all;
-}
 
-button:disabled,
-button:disabled:hover {
-  cursor: not-allowed;
-  border: 1px solid white;
-  background-color: rgba(255, 20, 147, 0.5);
-  color: white;
-}
+  &:disabled,
+  &:disabled:hover {
+    cursor: not-allowed;
+    border: 1px solid white;
+    background-color: rgba(255, 20, 147, 0.5);
+    color: white;
+  }
 
-button:hover,
-button:focus {
-  border: 1px solid deeppink;
-  background-color: white;
-  color: deeppink;
+  &:hover,
+  &:focus {
+    border: 1px solid deeppink;
+    background-color: white;
+    color: deeppink;
+  }
 }
 
 .user-profile__form {
@@ -241,17 +241,17 @@ button:focus {
   display: flex;
   flex-direction: column;
   border-top: 2px solid grey;
-}
 
-.user-profile__form-item {
-  margin-top: 10px;
-  display: flex;
-  flex-direction: column;
-}
+  &-item {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+  }
 
-textarea,
-select {
-  margin: 10px 0;
-  border: 1px solid deeppink;
+  textarea,
+  select {
+    margin: 10px 0;
+    border: 1px solid deeppink;
+  }
 }
 </style>
