@@ -32,9 +32,10 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to, from, next) => {
-  const user = store.state.user
+  const user = store.state.User.user
+
   if(!user) {
-    await store.dispatch('setUser', users[0])
+    await store.dispatch('User/setUser', users[1]);
   }
  
   const reqiresAdmin = to.matched.some(record => record.meta.reqiresAdmin)

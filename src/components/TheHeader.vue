@@ -3,9 +3,13 @@
     <router-link to="/">
       <div class="navigation__logo">Tweeter</div>
     </router-link>
-    <div class="navigation__user" v-if="user.username">
-      @{{ user.username }}
+    <div class="navigation__links">
+      <router-link to="/admin">
+        <div class="navigation__link">Admin</div>
+      </router-link>
     </div>
+
+    <div class="navigation__user" v-if="user">@{{ user.username }}</div>
   </nav>
 </template>
 
@@ -37,12 +41,18 @@ nav {
     color: white;
     text-decoration: none;
   }
-  .navigation__logo {
-    font-weight: bold;
-    font-size: 24px;
-  }
-  .navigation__user {
-    font-weight: bold;
+  .navigation {
+    &__logo {
+      font-weight: bold;
+      font-size: 24px;
+    }
+
+    &__link {
+      font-weight: bold;
+    }
+    &__user {
+      font-weight: bold;
+    }
   }
 }
 </style>
