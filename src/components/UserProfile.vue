@@ -17,6 +17,7 @@
         @submit.prevent="addTweet"
         v-if="showing"
         class="user-profile__form"
+        :class="{ '--exedded': textCount > 180 }"
       >
         <div class="user-profile__form-item">
           <label class="new-tweet" for="new-tweet">New Tweet:</label>
@@ -26,6 +27,9 @@
             rows="4"
             v-model="newTweet.content"
           ></textarea>
+          <small v-if="textCount > 0" id="newTweetHelp" class="text-muted"
+            >{{ textCount }} / 180</small
+          >
         </div>
         <div class="user-profile__form-item">
           <label for="tweet-type">Type:</label>
@@ -111,6 +115,8 @@ export default {
       () => `${state.user.firstName} ${state.user.lastName}`
     );
 
+    const textCount = computed(() => state.newTweet.content.length);
+
     const followUser = () => {
       state.followers++;
     };
@@ -134,7 +140,8 @@ export default {
     function addTweet() {
       if (
         state.newTweet.content.trim() !== "" &&
-        state.selectedType !== "Draft"
+        state.selectedType !== "Draft" && 
+        textCount.value <= 180
       ) {
         state.newTweet.id = state.tweetIndex;
         state.newTweet.date = `${new Date().toDateString()} ${new Date().toLocaleTimeString()}`;
@@ -164,6 +171,7 @@ export default {
       toggleLike,
       toggleForm,
       addTweet,
+      textCount,
       ...toRefs(state),
     };
   },
@@ -241,6 +249,20 @@ button {
   display: flex;
   flex-direction: column;
   border-top: 2px solid grey;
+
+  &.--exedded {
+    color: red;
+
+    textarea,
+    select {
+      border: 1px solid red;
+    }
+
+    button {
+      background-color: red;
+      color: white;
+    }
+  }
 
   &-item {
     margin-top: 10px;
