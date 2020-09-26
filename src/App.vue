@@ -1,30 +1,26 @@
 <template>
   <TheHeader :username="user.username" />
   <div id="content">
-  <UserProfile />
+    <router-view />
   </div>
 </template>
 
 <script>
-import TheHeader from "./components/TheHeader.vue";
-import UserProfile from "./components/UserProfile.vue";
-
+import TheHeader from "./components/TheHeader";
 export default {
   name: "App",
   components: {
     TheHeader,
-    UserProfile,
   },
-  data(){
+  data() {
     return {
       user: {
-        username: "neniEmsu"
-      }
-    }
-  }
+        username: "neniEmsu",
+      },
+    };
+  },
 };
 </script>
 
 <style lang="scss">
-
 </style>

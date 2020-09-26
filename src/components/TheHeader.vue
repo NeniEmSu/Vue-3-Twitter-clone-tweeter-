@@ -33,6 +33,10 @@ nav {
   padding: 10px 5%;
   background-color: deeppink;
   color: white;
+  a {
+    color: white;
+    text-decoration: none;
+  }
   .navigation__logo {
     font-weight: bold;
     font-size: 24px;
