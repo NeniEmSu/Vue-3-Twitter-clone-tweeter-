@@ -1,5 +1,5 @@
 <template>
-  <div class="user-profile">
+  <section class="user-profile">
     <div class="user-profile__user-panel">
       <h1 class="user-profile__username">@{{ user.username }}</h1>
       <div v-if="user.isAdmin" class="user-profile__admin-badge">Admin</div>
@@ -8,7 +8,17 @@
         <strong>Followers - {{ followers }}</strong>
       </div>
       <button @click="followUser()">Follow</button>
+      <form @submit.prevent="addTweet" class="user-profile__form">
+        <label for="new-tweet"> New Tweet </label>
+        <textarea
+          name="new-tweet"
+          id="new-tweet"
+          v-model="newTweet.content"
+        ></textarea>
+        <button type="submit">Submit</button>
+      </form>
     </div>
+
     <div class="user-profile__tweet-wrapper">
       <Tweet
         v-for="tweet in tweets"
@@ -18,7 +28,7 @@
         @toggle="toggleLike"
       />
     </div>
-  </div>
+  </section>
 </template>
 
 <script>
@@ -33,6 +43,7 @@ export default {
     const state = reactive({
       title: "User profile!",
       followers: 1,
+      tweetIndex: 0,
       user: {
         id: 1,
         username: "neniEmmanuel",
@@ -42,9 +53,12 @@ export default {
         isAdmin: true,
       },
       tweets: [
-        { id: 1, content: "First tweet from neni" },
-        { id: 2, content: "I am making another tweet agian." },
+        { content: "First tweet from neni" },
+        { content: "I am making another tweet agian." },
       ],
+      newTweet: {
+        content: "",
+      },
     });
 
     const fullName = computed(
@@ -59,6 +73,21 @@ export default {
       console.log(id);
     }
 
+    function setId() {
+      state.tweets = state.tweets.map((item) => {
+        item.id = state.tweetIndex;
+        state.tweetIndex++;
+        return item;
+      });
+    }
+
+    function addTweet() {
+      state.newTweet.id = state.tweetIndex;
+      state.tweetIndex++;
+      state.tweets.push(state.newTweet);
+      state.newTweet = { content: "" };
+    }
+
     watch(
       () => state.followers,
       (count, prevCount) => {
@@ -70,12 +99,14 @@ export default {
 
     onMounted(() => {
       console.log("Component is mounted!");
+      setId();
     });
 
     return {
       fullName,
       followUser,
       toggleLike,
+      addTweet,
       ...toRefs(state),
     };
   },
