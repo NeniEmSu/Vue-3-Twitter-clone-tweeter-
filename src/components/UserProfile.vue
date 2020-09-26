@@ -18,31 +18,31 @@
         v-if="showing"
         class="user-profile__form"
       >
-      <div class="user-profile__form-item">
-        <label class="new-tweet" for="new-tweet">New Tweet:</label>
-        <textarea
-          name="new-tweet"
-          id="new-tweet"
-          rows="4"
-          @keyup.enter="addTweet"
-          v-model="newTweet.content"
-        ></textarea>
-      </div>
-      <div class="user-profile__form-item">
-        <label for="tweet-type">Type:</label>
-        <select name="tweet-type" id="tweet-type">
-          <option
-            v-for="tweetType in tweetTypes"
-            :key="tweetType"
-            :value="tweetType"
-          >
-            {{ tweetType }}
-          </option>
+        <div class="user-profile__form-item">
+          <label class="new-tweet" for="new-tweet">New Tweet:</label>
+          <textarea
+            name="new-tweet"
+            id="new-tweet"
+            rows="4"
+            v-model="newTweet.content"
+          ></textarea>
+        </div>
+        <div class="user-profile__form-item">
+          <label for="tweet-type">Type:</label>
+          <select v-model="selectedType" name="tweet-type" id="tweet-type">
+            <option
+              v-for="tweetType in tweetTypes"
+              :key="tweetType"
+              :value="tweetType"
+            >
+              {{ tweetType }}
+            </option>
           </select>
-      </div>
-        
-       
-        <button type="submit">Tweet it!</button>
+        </div>
+
+        <button type="submit" :disabled="newTweet.content === ''">
+          Tweet it!
+        </button>
       </form>
     </div>
 
@@ -82,21 +82,21 @@ export default {
       },
       tweets: [
         {
-          content:
-            "Mrs Jonson's Chihuahua has not eaten for three days and is lethargic",
-          date: "2018-03-20 05:30",
-        },
-        {
-          content: "My Goldfish has some weird spots in the belly",
-          date: "2019-07-24 08:30",
+          content: "Anya's German Shepherd is having some back pain",
+          date: "2020-07-22 15:50",
         },
         {
           content: "Miss Eliza's Cat has excessive hairballs",
           date: "2019-12-20 10:30",
         },
         {
-          content: "Anya's German Shepherd is having some back pain",
-          date: "2020-07-22 15:50",
+          content: "My Goldfish has some weird spots in the belly",
+          date: "2019-07-24 08:30",
+        },
+        {
+          content:
+            "Mrs Jonson's Chihuahua has not eaten for three days and is lethargic",
+          date: "2018-03-20 05:30",
         },
       ],
       showing: false,
@@ -104,6 +104,7 @@ export default {
         content: "",
       },
       tweetTypes: ["Draft", "Instant tweet"],
+      selectedType: "Instant tweet",
     });
 
     const fullName = computed(
@@ -131,10 +132,16 @@ export default {
     }
 
     function addTweet() {
-      state.newTweet.id = state.tweetIndex;
-      state.tweetIndex++;
-      state.tweets.push(state.newTweet);
-      state.newTweet = { content: "" };
+      if (
+        state.newTweet.content.trim() !== "" &&
+        state.selectedType !== "Draft"
+      ) {
+        state.newTweet.id = state.tweetIndex;
+        state.newTweet.date = new Date().toLocaleDateString();
+        state.tweetIndex++;
+        state.tweets.unshift(state.newTweet);
+        state.newTweet = { content: "" };
+      }
     }
 
     watch(
@@ -212,6 +219,14 @@ button {
   color: white;
   font-weight: bold;
   transition: 300ms ease-in-out all;
+}
+
+button:disabled,
+button:disabled:hover {
+  cursor: not-allowed;
+  border: 1px solid white;
+  background-color: rgba(255, 20, 147, 0.5);
+  color: white;
 }
 
 button:hover,
