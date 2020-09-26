@@ -1,4 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import store from '../store';
+import { users } from '../assets/users';
 import Home from '../views/Home.vue'
 import UserProfile from '../views/UserProfile.vue'
 import Admin from '../views/Admin.vue'
@@ -30,10 +32,14 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to, from, next) => {
-  const isAdmin = false;
+  const user = store.state.user
+  if(!user) {
+    await store.dispatch('setUser', users[0])
+  }
+ 
   const reqiresAdmin = to.matched.some(record => record.meta.reqiresAdmin)
 
-  if (reqiresAdmin && isAdmin === false) next( {name: "Home"} )
+  if (reqiresAdmin && user.isAdmin === false) next( {name: "Home"} )
   else next()
 })
 

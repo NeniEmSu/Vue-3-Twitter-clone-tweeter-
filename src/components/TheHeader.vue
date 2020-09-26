@@ -3,8 +3,8 @@
     <router-link to="/">
       <div class="navigation__logo">Tweeter</div>
     </router-link>
-    <div class="navigation__user" v-if="username">
-      @{{ username }}
+    <div class="navigation__user" v-if="user.username">
+      @{{ user.username }}
     </div>
   </nav>
 </template>
@@ -13,9 +13,9 @@
 export default {
   name: "TheHeader",
   props: {
-    username: {
-      type: String,
-      default: "",
+    user: {
+      type: Object,
+      default: () => {},
       required: true,
     },
   },

@@ -1,5 +1,5 @@
 <template>
-  <TheHeader :username="user.username" />
+  <TheHeader :user="user" />
   <div id="content">
     <router-view />
   </div>
@@ -7,16 +7,18 @@
 
 <script>
 import TheHeader from "./components/TheHeader";
+import { useStore } from "vuex";
+import { computed } from "vue";
 export default {
   name: "App",
   components: {
     TheHeader,
   },
-  data() {
+  setup() {
+    const store = useStore();
+    const user = computed(() => store.state.user);
     return {
-      user: {
-        username: "neniEmsu",
-      },
+      user,
     };
   },
 };
