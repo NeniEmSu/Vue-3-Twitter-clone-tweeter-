@@ -182,25 +182,24 @@ export default {
 .user-profile {
   display: grid;
   grid-template-columns: 1fr 3fr;
-  padding: 10px;
   width: 100%;
 
   &__user-panel {
-    /* height: auto;
-  max-height: 440px; */
+    display: flex;
+    flex-direction: column;
+    margin-bottom: auto;
+  }
+
+  &__user-panel-info {
     border: none;
     padding: 20px;
     margin-right: 25px;
+    margin-bottom: 10px;
     display: flex;
     flex-direction: column;
     border-radius: 10px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     background-color: white;
-  }
-
-  &__user-panel-info {
-    display: flex;
-    flex-direction: column;
   }
 
   &__username {
@@ -245,10 +244,15 @@ button {
 }
 
 .user-profile__form {
-  margin-top: 10px;
-  display: flex;
-  flex-direction: column;
-  border-top: 2px solid grey;
+  border: none;
+    padding: 20px;
+    margin-right: 25px;
+    margin-bottom: auto;
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    background-color: white;
 
   &.--exedded {
     color: red;
