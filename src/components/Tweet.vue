@@ -1,11 +1,9 @@
 <template>
-  <div class="tweet-item">
+  <div class="tweet-item" @click="$emit('toggle', tweet.id)">
     <div class="user-item__tweet">
-      <div class="user-item__user">
-        @{{ username }}
-      </div>
+      <div class="user-item__user">@{{ username }}</div>
       <div class="user-item__content">
-        {{ tweet }}
+        {{ tweet.content }}
       </div>
     </div>
   </div>
@@ -21,8 +19,9 @@ export default {
       required: true,
     },
     tweet: {
-      type: String,
-      default: "",
+      type: Object,
+      default: () => {},
+      required: true,
     },
   },
   setup() {

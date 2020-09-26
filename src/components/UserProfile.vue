@@ -10,18 +10,24 @@
       <button @click="followUser()">Follow</button>
     </div>
     <div class="user-profile__tweet-wrapper">
-        <Tweet v-for="tweet in tweets" :key="tweet.id" :tweet="tweet.content" :username="user.username"/>
+      <Tweet
+        v-for="tweet in tweets"
+        :key="tweet.id"
+        :tweet="tweet"
+        :username="user.username"
+        @toggle="toggleLike"
+      />
     </div>
   </div>
 </template>
 
 <script>
 import { reactive, toRefs, computed, onMounted, watch } from "vue";
-import Tweet from './Tweet';
+import Tweet from "./Tweet";
 export default {
   name: "UserProfile",
   components: {
-    Tweet
+    Tweet,
   },
   setup() {
     const state = reactive({
@@ -36,9 +42,9 @@ export default {
         isAdmin: true,
       },
       tweets: [
-        {id: 1, content: 'First tweet from neni'},
-        {id: 2, content: 'I am making another tweet agian.'}
-      ]
+        { id: 1, content: "First tweet from neni" },
+        { id: 2, content: "I am making another tweet agian." },
+      ],
     });
 
     const fullName = computed(
@@ -48,6 +54,10 @@ export default {
     const followUser = () => {
       state.followers++;
     };
+
+    function toggleLike(id) {
+      console.log(id);
+    }
 
     watch(
       () => state.followers,
@@ -65,6 +75,7 @@ export default {
     return {
       fullName,
       followUser,
+      toggleLike,
       ...toRefs(state),
     };
   },
