@@ -1,6 +1,7 @@
 <template>
   <div>
     <h1>Admin</h1>
+    <p>If you see this, you are an admin.</p>
   </div>
 </template>
 
