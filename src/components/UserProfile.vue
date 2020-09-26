@@ -1,21 +1,48 @@
 <template>
   <section class="user-profile">
     <div class="user-profile__user-panel">
-      <h1 class="user-profile__username">@{{ user.username }}</h1>
-      <div v-if="user.isAdmin" class="user-profile__admin-badge">Admin</div>
-      <p>{{ fullName }}</p>
-      <div class="user-profile__follower-count">
-        <strong>Followers - {{ followers }}</strong>
+      <div class="user-profile__user-panel-info">
+        <h1 class="user-profile__username">@{{ user.username }}</h1>
+        <div v-if="user.isAdmin" class="user-profile__admin-badge">Admin</div>
+        <div class="user-profile__follower-count">
+          <strong>Followed by {{ followers }}</strong>
+        </div>
+        <div class="buttons">
+          <button @click="followUser()">Follow</button>
+          <button @click="toggleForm()">Add Tweet</button>
+        </div>
       </div>
-      <button @click="followUser()">Follow</button>
-      <form @submit.prevent="addTweet" class="user-profile__form">
-        <label for="new-tweet"> New Tweet </label>
+
+      <form
+        @submit.prevent="addTweet"
+        v-if="showing"
+        class="user-profile__form"
+      >
+      <div class="user-profile__form-item">
+        <label class="new-tweet" for="new-tweet">New Tweet:</label>
         <textarea
           name="new-tweet"
           id="new-tweet"
+          rows="4"
+          @keyup.enter="addTweet"
           v-model="newTweet.content"
         ></textarea>
-        <button type="submit">Submit</button>
+      </div>
+      <div class="user-profile__form-item">
+        <label for="tweet-type">Type:</label>
+        <select name="tweet-type" id="tweet-type">
+          <option
+            v-for="tweetType in tweetTypes"
+            :key="tweetType"
+            :value="tweetType"
+          >
+            {{ tweetType }}
+          </option>
+          </select>
+      </div>
+        
+       
+        <button type="submit">Tweet it!</button>
       </form>
     </div>
 
@@ -25,6 +52,7 @@
         :key="tweet.id"
         :tweet="tweet"
         :username="user.username"
+        :name="fullName"
         @toggle="toggleLike"
       />
     </div>
@@ -53,12 +81,29 @@ export default {
         isAdmin: true,
       },
       tweets: [
-        { content: "First tweet from neni" },
-        { content: "I am making another tweet agian." },
+        {
+          content:
+            "Mrs Jonson's Chihuahua has not eaten for three days and is lethargic",
+          date: "2018-03-20 05:30",
+        },
+        {
+          content: "My Goldfish has some weird spots in the belly",
+          date: "2019-07-24 08:30",
+        },
+        {
+          content: "Miss Eliza's Cat has excessive hairballs",
+          date: "2019-12-20 10:30",
+        },
+        {
+          content: "Anya's German Shepherd is having some back pain",
+          date: "2020-07-22 15:50",
+        },
       ],
+      showing: false,
       newTweet: {
         content: "",
       },
+      tweetTypes: ["Draft", "Instant tweet"],
     });
 
     const fullName = computed(
@@ -79,6 +124,10 @@ export default {
         state.tweetIndex++;
         return item;
       });
+    }
+
+    function toggleForm() {
+      state.showing = !state.showing;
     }
 
     function addTweet() {
@@ -106,6 +155,7 @@ export default {
       fullName,
       followUser,
       toggleLike,
+      toggleForm,
       addTweet,
       ...toRefs(state),
     };
@@ -117,20 +167,26 @@ export default {
 .user-profile {
   display: grid;
   grid-template-columns: 1fr 3fr;
+  padding: 10px;
   width: 100%;
-  padding: 50px 5%;
 }
 
 .user-profile__user-panel {
+  /* height: auto;
+  max-height: 440px; */
   border: none;
   padding: 20px;
   margin-right: 25px;
   display: flex;
   flex-direction: column;
   border-radius: 10px;
-  box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   background-color: white;
-  /* width: 200px; */
+}
+
+.user-profile__user-panel-info {
+  display: flex;
+  flex-direction: column;
 }
 
 .user-profile__username {
@@ -142,17 +198,45 @@ export default {
   color: white;
   border: none;
   border-radius: 5px;
-  margin-right: auto;
+  margin: 0 auto 5px 0;
   padding: 5px 10px;
 }
 
 button {
+  cursor: pointer;
   padding: 10px 25px;
-  margin: 10px auto 0 0px;
-  border: none;
+  margin: 10px auto 10px 0px;
+  border: 1px solid white;
   border-radius: 5px;
   background-color: deeppink;
   color: white;
   font-weight: bold;
+  transition: 300ms ease-in-out all;
+}
+
+button:hover,
+button:focus {
+  border: 1px solid deeppink;
+  background-color: white;
+  color: deeppink;
+}
+
+.user-profile__form {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  border-top: 2px solid grey;
+}
+
+.user-profile__form-item {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+textarea,
+select {
+  margin: 10px 0;
+  border: 1px solid deeppink;
 }
 </style>

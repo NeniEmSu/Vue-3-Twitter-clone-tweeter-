@@ -1,7 +1,10 @@
 <template>
   <div class="tweet-item" @click="$emit('toggle', tweet.id)">
     <div class="user-item__tweet">
-      <div class="user-item__user">@{{ username }}</div>
+      <div class="user-item__user">
+        <time :datetime="tweet.date">{{ tweet.date }}</time>
+        <p>By: {{ name }} <small>(@{{username}})</small></p>
+      </div>
       <div class="user-item__content">
         {{ tweet.content }}
       </div>
@@ -13,7 +16,12 @@
 export default {
   name: "Tweet",
   props: {
-    username: {
+    name: {
+      type: String,
+      default: "",
+      required: true,
+    },
+     username: {
       type: String,
       default: "",
       required: true,
@@ -38,14 +46,19 @@ export default {
   border-radius: 5px;
   box-sizing: border-box;
   cursor: pointer;
-  transition: all ease-in-out 300ms;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: all ease 300ms;
 }
 
 .tweet-item:hover {
-  transform: scale(1.1, 1.1);
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
 }
 
 .tweet-item__user {
   font-weight: bold;
+}
+
+time {
+  float: right;
 }
 </style>
