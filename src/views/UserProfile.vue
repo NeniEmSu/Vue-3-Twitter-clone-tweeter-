@@ -77,8 +77,6 @@ export default {
     const route = useRoute()
     const userId = computed(() => route.params.userId)
 
-console.log(userId.value)
-
     const state = reactive({
       title: "User profile!",
       followers: 1,
@@ -143,7 +141,6 @@ console.log(userId.value)
     );
 
     onMounted(() => {
-      console.log("Component is mounted!");
       setId();
     });
 
